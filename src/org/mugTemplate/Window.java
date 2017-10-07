@@ -80,14 +80,14 @@ public class Window extends Canvas{
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
 		
 		frame.add(main);
 		frame.setVisible(true);
-		System.out.println(menuPanel.getHeight());
+		//System.out.println(menuPanel.getHeight());
 		frame.setPreferredSize(new Dimension(width, height+menuPanel.getHeight()));
 		frame.setMaximumSize(new Dimension(width, height+menuPanel.getHeight()));
 		frame.setMinimumSize(new Dimension(width, height+menuPanel.getHeight()));
+		frame.setLocationRelativeTo(null);
 		main.start();
 		
 	}

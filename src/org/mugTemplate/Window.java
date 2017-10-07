@@ -69,7 +69,6 @@ public class Window extends Canvas{
 		Component horizontalStrut2 = Box.createHorizontalStrut(20);
 		horizontalBox.add(horizontalStrut2);
 		
-	
 
 		JPanel spacer = new JPanel();
 		horizontalBox.add(spacer);

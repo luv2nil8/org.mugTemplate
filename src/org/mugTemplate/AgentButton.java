@@ -31,7 +31,6 @@ public class AgentButton extends MenuButton implements ActionListener {
 	
 	public  AgentButton (Handler handler){
 		this.handler = handler;
-		System.out.println(this.handler.getObject(ID.Agent).toString()+"Dicks");
 	}
 	
 	@Override

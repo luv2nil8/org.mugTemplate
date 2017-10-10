@@ -30,9 +30,7 @@ public class PrintButton implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if(BG.getImage() != null){
-			BG.fitImage(background.getImage());
-		}
+		BG.fitImage(background.getImage());
 		A.fitImage(agent.getImage());
 		H.fitImage(house.getImage());
 		BufferedImage bimage = new BufferedImage(2369, 1050, BufferedImage.TYPE_INT_ARGB);
@@ -40,7 +38,7 @@ public class PrintButton implements ActionListener {
         // Draw the image on to the buffered image
         Graphics2D bGr = bimage.createGraphics();
         
-        bGr.drawImage(BG.scaled, 2369, 1050, null);
+        bGr.drawImage(BG.scaled, 0, 0, null);
         bGr.drawImage(A.scaled, A.x, A.y, null);
         bGr.drawImage(H.scaled, H.x, H.y, null);
         print(bimage);

@@ -10,9 +10,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Properties;
+
 import javax.imageio.ImageIO;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -112,19 +114,6 @@ public abstract class CanvasImage {
 		agent.image = null;
 		while (agent.image == null)
 		{
-			//if an agent pic hasn't been picked, open a new file chooser
-		    //open a Dialogue to ask for the Agent name
-			int result = JOptionPane.showConfirmDialog(null,  inputBox, "Agent Name", JOptionPane.PLAIN_MESSAGE);
-
-		    if (result == JOptionPane.OK_OPTION) {
-			    System.out.println("You entered " +
-			            first.getText() + ", " +
-			            last.getText());
-			} else {
-			    System.out.println("User canceled / closed the dialog, result = " + result);
-			    return;
-			}
-		    
 		    if(file == null){
 				JFileChooser chooser = new JFileChooser();
 			    FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -146,27 +135,48 @@ public abstract class CanvasImage {
 
 			    //copy it to the project directory
 		    try {
-				this.fitImage(ImageIO.read(file));
+		    	this.fitImage(ImageIO.read(file));
+		    } catch (IOException e) {
+		    	// TODO Auto-generated catch block
+		    	e.printStackTrace();
+		    }
+		    //if an agent pic hasn't been picked, open a new file chooser
+		    //open a Dialogue to ask for the Agent name
+		    
+		    
+		    int result = JOptionPane.showConfirmDialog(null,  inputBox, "Agent Name", JOptionPane.PLAIN_MESSAGE);
+		    
+		    if (result == JOptionPane.OK_OPTION) {
+		    	System.out.println("You entered " +
+		    			first.getText() + " " +
+		    			last.getText());
+		    } else {
+		    	System.out.println("User canceled / closed the dialog, result = " + result);
+		    	return;
+		    }
+		    
+		    try {
 		    	new File(dir+"\\agentPics\\").mkdirs();
-				Files.copy(file.toPath(), Paths.get(dir+"\\agentPics\\"+first.getText() + " " +
-			            last.getText()+"."+getFileExtension(file)));
-				System.out.println(Paths.get(dir+"\\agentPics\\"+file.getName().toString()));
+		    	Path fileOutputPath = Paths.get(dir+"\\agentPics\\"+first.getText() + " " +
+			            last.getText()+"."+getFileExtension(file));
+				Files.copy(file.toPath(), fileOutputPath);
+				//update the properties file
+				Properties prop = new Properties();
+				prop.setProperty(first.getText()+" "+last.getText(), fileOutputPath.toString() );
+				try {
+					updateProps(prop);
+					agent.imageLocal = true;
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				System.out.println(Paths.get("Saving "+dir+"\\agentPics\\"+file.getName().toString()));
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		    
 
-		    //update the properties file
-		    Properties prop = new Properties();
-			prop.setProperty(first.getText()+" "+last.getText(), file.toString());
-			try {
-				updateProps(prop);
-				agent.imageLocal = true;
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			    //TODO
 
 		}
@@ -197,6 +207,7 @@ public abstract class CanvasImage {
 	public static BufferedImage getImageFromKey(String key) throws IOException {
 		Properties agents= loadProp();
 		File f = new File(agents.getProperty(key));
+		System.out.println(agents.getProperty(key));
 		BufferedImage photo = ImageIO.read(f);
 		return photo;
 	}
@@ -297,8 +308,6 @@ public abstract class CanvasImage {
         // Return the buffered image
         return bimage;
     }
-
-    
 }
     
 

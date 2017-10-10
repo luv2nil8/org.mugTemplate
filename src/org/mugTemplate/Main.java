@@ -53,6 +53,8 @@ public class Main extends Canvas implements Runnable{
 						&&  getMousePosition().getY() <= Hy+Hh)
 					{
 						handler.getObject(ID.House).fitImage(ImageIO.read(images[0]));
+					}else {
+						handler.getObject(ID.Background).fitImage(ImageIO.read(images[0]));
 					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

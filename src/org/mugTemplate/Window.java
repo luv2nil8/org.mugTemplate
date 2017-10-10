@@ -36,8 +36,8 @@ public class Window extends Canvas{
 				public void actionPerformed(ActionEvent e)
 				{
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
-				System.out.println(e.getSource());
 		        String agentName = (String)cb.getSelectedItem();
+		        System.out.println(agentName);
 		          try {
 						handler.getObject(ID.Agent).fitImage(CanvasImage.getImageFromKey(agentName));
 					} catch (IOException e1) {
@@ -69,9 +69,14 @@ public class Window extends Canvas{
 		Component horizontalStrut2 = Box.createHorizontalStrut(20);
 		horizontalBox.add(horizontalStrut2);
 		
+		JButton templateButton = new JButton("Change Template");
+		horizontalBox.add(templateButton);
+		templateButton.addActionListener(new TemplateButton(handler));
 
 		JPanel spacer = new JPanel();
 		horizontalBox.add(spacer);
+		
+		
 		
 		JButton newAgentButton = new JButton("Add New Agent To Database");
 		horizontalBox.add(newAgentButton);

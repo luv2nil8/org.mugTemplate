@@ -18,8 +18,15 @@ public class Background extends CanvasImage{
 
 	@Override
 	public void render(Graphics g) {
-		g.setColor(Color.white);
+		if(scaled == null){
+		g.setColor(Color.WHITE);
 		g.fillRect(x, y, Width, Height);
+		}
+		
+		else{
+			g.drawImage(scaled, x, y, null);
+		}
+		
 	}
 	
 
